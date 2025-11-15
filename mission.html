@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Mission Access</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      background: #000;
+      color: #00ff00;
+      font-family: "Consolas", "Courier New", monospace;
+      white-space: pre-wrap;
+      padding: 20px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+<script>
+  // 👉 CHANGE THIS to your real event date & time (IST)
+  // Example: "November 18, 2025 10:00:00"
+  const UNLOCK_TIME_STRING = "November 18, 2025 10:00:00";
+
+  const unlockTime = new Date(UNLOCK_TIME_STRING).getTime();
+  const now = new Date().getTime();
+
+  // Read URL parameters: ?type=team&team=Alpha%20Code&code=1
+  const params = new URLSearchParams(window.location.search);
+  const mode = (params.get("type") || "team").toLowerCase();
+  const teamName = params.get("team") || "Unknown Team";
+  const paperCode = params.get("code") || "?";
+
+  if (now < unlockTime) {
+    // LOCKED MESSAGE
+    document.body.innerHTML = `
+🛑 SYSTEM ACCESS DENIED 🛑
+
+This QR code is currently locked.
+
+Unlock Time: Monday | 10:00 AM
+Authorization required.
+
+> Attempt logged.
+> Return when the mission begins.
+`;
+  } else {
+    // AFTER UNLOCK
+    if (mode === "trap") {
+      // Funny / trap QR
+      document.body.innerHTML = `
+💀 ACCESS GRANTED… BUT TO NOTHING 💀
+
+You scanned a TRAP QR.
+
+This code gives you:
+- 0 clues
+- 0 points
+- Extra walking exercise 😈
+
+Keep searching, agent...
+`;
+    } else {
+      // Team QR
+      document.body.innerHTML = `
+⚠ TASK UNLOCKED ⚠
+
+Team: ${teamName}
+Question Paper Code: ${paperCode}
+
+Time is ticking... ⏳
+`;
+    }
+  }
+</script>
+</body>
+</html>
